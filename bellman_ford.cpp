@@ -73,7 +73,35 @@ int main()
     cout << "Enter source vertex: ";
     cin >> source;
 
+    if (source < 0 || source >= v) {
+        cout << "Invalid source vertex!";
+        return 1;
+    }
+
     bellmanFord(v, e, edges, source);
 
     return 0;
 }
+
+/*
+Example Input/Output:
+Enter no of vertices: 5
+Enter no of edges: 8
+Enter edges in the format (source destination weight):
+0 1 -1
+0 2 4
+1 2 3
+1 3 2
+1 4 2
+3 2 5
+3 1 1
+4 3 -3
+Enter source vertex: 0
+
+Vertex	Distance from Source (0)
+0	0
+1	-1
+2	2
+3	-2
+4	1
+*/

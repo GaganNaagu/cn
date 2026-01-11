@@ -45,3 +45,21 @@ int main()
 
     return 0;
 }
+
+/*
+Example Input/Output:
+Enter number of frames: 3
+Enter frame no & data for frame 1: 121 Hello
+Enter frame no & data for frame 2: 127 World
+Enter frame no & data for frame 3: 125 C++
+
+Frames received (unordered):
+Frame 121 -> Hello
+Frame 127 -> World
+Frame 125 -> C++
+
+Frames after sorting (in correct order):
+Frame 121 -> Hello
+Frame 125 -> C++
+Frame 127 -> World
+*/

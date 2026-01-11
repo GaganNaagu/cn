@@ -9,11 +9,13 @@ int main() {
   int capacity = 100; // maximum number of tokens the bucket can hold
 
   int request[100];
-  
+
   int n;
   cout<<"Enter number of requests: ";
   cin>>n;
-  
+
+  if (n > 100) n = 100; // Cap input to prevent crash
+
   cout<<"Enter no. of packets per request: ";
   for (int i=0;i<n;i++){
       cin>>request[i];
@@ -37,3 +39,13 @@ int main() {
 
   return 0;
 }
+
+/*
+Example Input/Output:
+Enter number of requests: 4
+Enter no. of packets per request: 50 15 20 100
+Request granted, tokens remaining: 60
+Request granted, tokens remaining: 55
+Request granted, tokens remaining: 45
+Request denied, not enough tokens: 55
+*/

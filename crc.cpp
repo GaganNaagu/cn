@@ -47,3 +47,16 @@ int main(){
 
     return 0;
 }
+
+/*
+Example Input/Output:
+Enter Data to be sent: 100100
+Remainder: 1101011010111010
+Codeword: 1001001101011010111010
+Enter received codeword: 1001001101011010111010
+No Error
+
+Example 2 (with error):
+Enter received codeword: 1001001101011000111010
+Error Detected
+*/

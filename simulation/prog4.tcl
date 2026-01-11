@@ -124,33 +124,38 @@ $ns at 150 "$n4 setdest 900 200 20"
 $ns run
 
 
-//===================================
-// AWK file (filename.awk)
-//===================================
+# ===================================
+# AWK file (filename.awk)
+# TO RUN: awk -f filename.awk p6.tr
+# ===================================
 
-BEGIN{
-count1=0
-count2=0
-pack1=0
-pack2=0
-time1=0
-time2=0
-}
-{
-if($1=="r" && $3=="_1_" && $4=="RTR")
-{
-count1++
-pack1=pack1+$8
-time1=$2
-}
-if($1=="r" && $3=="_2_" && $4=="RTR")
-{
-count2++
-pack2=pack2+$8
-time2=$2
-}
-}
-END{
-printf("The Throughput from n0 to n1: %f Mbps \n", ((count1*pack1*8)/(time1*1000000)));
-printf("The Throughput from n1 to n2: %f Mbps \n", ((count2*pack2*8)/(time2*1000000)));
-}
+# BEGIN{
+# count1=0
+# count2=0
+# pack1=0
+# pack2=0
+# time1=0
+# time2=0
+# }
+# {
+# if($1=="r" && $3=="_1_" && $4=="RTR")
+# {
+# count1++
+# pack1=pack1+$8
+# time1=$2
+# }
+# if($1=="r" && $3=="_2_" && $4=="RTR")
+# {
+# count2++
+# pack2=pack2+$8
+# time2=$2
+# }
+# }
+# END{
+# printf("The Throughput from n0 to n1: %f Mbps \n", ((count1*pack1*8)/(time1*1000000)));
+# printf("The Throughput from n1 to n2: %f Mbps \n", ((count2*pack2*8)/(time2*1000000)));
+# }
+
+# Example usage/output:
+# ns prog4.tcl
+# (Outputs number of packets dropped to console, opens NAM)

@@ -32,3 +32,15 @@ int main(){
 
     return 0;
 }
+
+/*
+Example Input/Output:
+Packet accepted
+Packet accepted
+Packet accepted
+...
+Packet dropped (RANDOM)
+Packet accepted
+Packet dropped (QUEUE FULL)
+Packet dropped (QUEUE FULL)
+*/
