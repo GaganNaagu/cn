@@ -52,7 +52,7 @@ $ns queue-limit $n0 $n1 10
 $ns queue-limit $n1 $n2 10
 
 #Set up a Transport layer connection.
-set tcp0 [new Agent/UDP]
+set udp0 [new Agent/UDP]
 $ns attach-agent $n0 $udp0
 set sink0 [new Agent/Null]
 $ns attach-agent $n2 $null0
