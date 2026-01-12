@@ -20,8 +20,21 @@ public class TcpClient {
             }
 
             s.close();
+            user.close();
+            in.close();
+            out.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
     }
 }
+
+/*
+ * Sample Input:
+ * Enter file name: hello.txt
+ * 
+ * Sample Output:
+ * --- File Contents ---
+ * Hello, this is a test file.
+ * This is another line.
+ */

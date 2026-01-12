@@ -29,8 +29,16 @@ public class TcpServer {
 
             s.close();
             ss.close();
+            in.close();
+            out.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
     }
 }
+
+/*
+ * Sample Output:
+ * Server started… waiting for client…
+ * Client connected.
+ */
