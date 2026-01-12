@@ -18,7 +18,7 @@ proc finish {} {
     exec nam out.nam &
 
     puts "Number of ping packets dropped:"
-    exec grep "^d" out.tr | grep ping | wc -l
+    exec grep -c "^d" out.tr
 
     exit 0
 }
