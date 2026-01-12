@@ -1,25 +1,27 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class TcpClient {
-    public static void main(String[] args) throws Exception {
-        Socket sock = new Socket("127.0.0.1", 4000);
-        System.out.println("Enter the file name: ");
-        BufferedReader nameRead = new BufferedReader(new InputStreamReader(System.in));
-        String fname = nameRead.readLine();
-        OutputStream ostream = sock.getOutputStream();
-        PrintWriter pwrite = new PrintWriter(ostream, true);
-        pwrite.println(fname);
+    public static void main(String[] args) {
+        try {
+            Socket s = new Socket("localhost", 5000);
+            Scanner user = new Scanner(System.in);
+            Scanner in = new Scanner(s.getInputStream());
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 
-        InputStream istream = sock.getInputStream();
-        BufferedReader contentRead = new BufferedReader(new InputStreamReader(istream));
-        String str;
-        while ((str = contentRead.readLine()) != null) {
-            System.out.println(str);
+            System.out.print("Enter file name: ");
+            String fileName = user.nextLine();
+            out.println(fileName);
+
+            System.out.println("\n--- File Contents ---");
+            while (in.hasNextLine()) {
+                System.out.println(in.nextLine());
+            }
+
+            s.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
-        contentRead.close();
-        pwrite.close();
-        sock.close();
-        nameRead.close();
     }
 }

@@ -1,32 +1,36 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class TcpServer {
-    public static void main(String[] args) throws Exception {
-        ServerSocket sersock = new ServerSocket(4000);
-        System.out.println("Server Connected, waiting for client");
-        Socket sock = sersock.accept();
-        System.out.println("Connection successful, waiting for filename");
-        InputStream iStream = sock.getInputStream();
-        BufferedReader nameRead = new BufferedReader(new InputStreamReader(iStream));
-        String fname = nameRead.readLine();
-        OutputStream ostream = sock.getOutputStream();
-        PrintWriter pwrite = new PrintWriter(ostream, true);
+    public static void main(String[] args) {
         try {
-            BufferedReader contentRead = new BufferedReader(new FileReader(fname));
-            String str;
-            while ((str = contentRead.readLine()) != null) {
-                pwrite.println(str);
+            ServerSocket ss = new ServerSocket(5000);
+            System.out.println("Server started… waiting for client…");
+
+            Socket s = ss.accept();
+            System.out.println("Client connected.");
+
+            Scanner in = new Scanner(s.getInputStream());
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+
+            String fileName = in.nextLine();
+            File file = new File(fileName);
+
+            if (!file.exists()) {
+                out.println("File not found!");
+            } else {
+                Scanner fileReader = new Scanner(file);
+                while (fileReader.hasNextLine()) {
+                    out.println(fileReader.nextLine());
+                }
+                fileReader.close();
             }
-            contentRead.close();
-        } catch (FileNotFoundException e) {
-            pwrite.println("File does not exist");
-        } finally {
-            System.out.println("Closing connection");
-            pwrite.close();
-            nameRead.close();
-            sock.close();
-            sersock.close();
+
+            s.close();
+            ss.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
- }
+}

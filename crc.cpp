@@ -1,62 +1,58 @@
-#include<iostream>
-#include<string.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-string crc(string data, string poly, bool errChk){
-    string rem = data;
-    if (!errChk){
-        for(int i=0; i<poly.length()-1;i++)
-            rem.append("0");
-    }
-    for(int i=0;i<rem.length()-poly.length()+1;i++){
-        if (rem[i]=='1'){
-            for(int j=0; j<poly.length();j++){
-                rem[i+j] = (rem[i+j]==poly[j]) ? '0': '1';
+/* Function to perform CRC division */
+string crcDivision(string data, string generator)
+{
+    int m = generator.size();
+
+    for (int i = 0; i <= data.size() - m; i++) {
+        if (data[i] == '1') {
+            for (int j = 0; j < m; j++) {
+                data[i + j] = (data[i + j] == generator[j]) ? '0' : '1';
             }
         }
     }
-    return rem.substr(rem.length()-poly.length()+1);
+    return data;
 }
 
-int main(){
-    string data;
-    string poly = "10000100010001010";
+int main()
+{
+    string msg, crc;
+    cout << "Enter the msg : ";
+    cin >> msg;
+    cout << "Enter the crc generator : ";
+    cin >> crc;
 
-    cout << "Enter Data to be sent: " ;
-    cin >> data;
+    int m = crc.size();
 
-    string rem = crc(data,poly,0);
-    string codeword = data+rem;
+    /* Sender side */
+    string code = msg;
+    code.append(m - 1, '0');   // append m-1 zeros
 
-    cout << "Remainder: " << rem << endl;
-    cout << "Codeword: " << codeword << endl;
+    string temp = crcDivision(code, crc);
+    string remainder = temp.substr(temp.size() - (m - 1));
 
-    //Checking error
-    string recvCodeword;
-    cout << "Enter received codeword: " ;
-    cin >> recvCodeword;
+    string transmitted = msg + remainder;
 
-    string recvRem = crc(recvCodeword, poly, 1);
+    cout << "Remainder : " << remainder << endl;
+    cout << "Code transmitted : " << transmitted << endl;
 
-    if (stoi(recvRem)==0){
-        cout << "No Error";
+    /* Receiver side */
+    string receiver;
+    cout << "Enter the message at receiver end : ";
+    cin >> receiver;
+
+    string recvTemp = crcDivision(receiver, crc);
+    string recvRemainder = recvTemp.substr(recvTemp.size() - (m - 1));
+
+    for (char c : recvRemainder) {
+        if (c != '0') {
+            cout << "Error found" << endl;
+            return 0;
+        }
     }
-    else{
-        cout << "Error Detected";
-    }
 
+    cout << "No error found" << endl;
     return 0;
 }
-
-/*
-Example Input/Output:
-Enter Data to be sent: 100100
-Remainder: 1101011010111010
-Codeword: 1001001101011010111010
-Enter received codeword: 1001001101011010111010
-No Error
-
-Example 2 (with error):
-Enter received codeword: 1001001101011000111010
-Error Detected
-*/
