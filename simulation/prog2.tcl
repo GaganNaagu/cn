@@ -61,7 +61,7 @@ $cbr attach-agent $tcp
 # Schedule
 $ns at 0.2 "$p0 send"
 $ns at 0.4 "$p1 send"
-$ns at 0.4 "$cbr start"
+$ns at 0.6 "$cbr start"
 $ns at 0.8 "$p0 send"
 $ns at 1.0 "$p1 send"
 $ns at 1.2 "$cbr stop"
