@@ -31,7 +31,7 @@ set n1 [$ns node]
 set n2 [$ns node]
 
 #Label the nodes
-$n0 label "TCP Source"
+$n0 label "Source"
 $n2 label "Sink"
 
 #Set the color
@@ -52,11 +52,11 @@ $ns queue-limit $n0 $n1 10
 $ns queue-limit $n1 $n2 10
 
 #Set up a Transport layer connection.
-set tcp0 [new Agent/TCP]
-$ns attach-agent $n0 $tcp0
-set sink0 [new Agent/TCPSink]
-$ns attach-agent $n2 $sink0
-$ns connect $tcp0 $sink0
+set tcp0 [new Agent/UDP]
+$ns attach-agent $n0 $udp0
+set sink0 [new Agent/Null]
+$ns attach-agent $n2 $null0
+$ns connect $tcp0 $null0
 
 #Set up an Application layer Traffic
 set cbr0 [new Application/Traffic/CBR]

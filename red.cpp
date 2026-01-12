@@ -1,6 +1,4 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <bits/stdc++.h>
 using namespace std;
 
 double calculateAvg(double prevAvg, int qSize, double wq) {
