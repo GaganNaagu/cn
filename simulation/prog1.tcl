@@ -11,6 +11,7 @@ proc finish {} {
     close $tf
     close $nf
     exec nam out.nam &
+    puts "Number of ping packets dropped:"
     exec grep -c "^d" out.tr
     exit 0
 }
