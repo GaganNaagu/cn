@@ -54,9 +54,9 @@ $ns queue-limit $n1 $n2 10
 #Set up a Transport layer connection.
 set udp0 [new Agent/UDP]
 $ns attach-agent $n0 $udp0
-set sink0 [new Agent/Null]
+set null0 [new Agent/Null]
 $ns attach-agent $n2 $null0
-$ns connect $tcp0 $null0
+$ns connect $udp0 $null0
 
 #Set up an Application layer Traffic
 set cbr0 [new Application/Traffic/CBR]
@@ -64,8 +64,8 @@ $cbr0 set type_ CBR
 $cbr0 set packetSize_ 100
 $cbr0 set rate_ 1Mb
 $cbr0 set random_ false
-$cbr0 attach-agent $tcp0
-$tcp0 set class_ 1
+$cbr0 attach-agent $udp0
+$udp0 set class_ 1
 
 #Schedule Events
 $ns at 0.0 "$cbr0 start"
