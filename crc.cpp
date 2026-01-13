@@ -56,3 +56,14 @@ int main()
     cout << "No error found" << endl;
     return 0;
 }
+
+/*
+Sample Input/Output:
+
+Enter the msg : 1101
+Enter the crc generator : 1011
+Remainder : 111
+Code transmitted : 1101111
+Enter the message at receiver end : 1101111
+No error found
+*/
