@@ -104,7 +104,7 @@ Enter request size: 12
 Sample Output:
 Request allowed, tokens left: 1
 
-Request allowed, tokens left: 0
+Request of size 5 denied! (Insufficient tokens)
 
 Request of size 12 denied! (Insufficient tokens)
 */

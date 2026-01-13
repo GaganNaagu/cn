@@ -49,21 +49,19 @@ int main() {
 
 /*
 Sample Input:
-Enter number of incoming packets: 5
-Enter wq (0.0 to 1.0): 0.5
-Enter min threshold: 10
-Enter max threshold: 20
+Enter number of incoming packets: 4
+Enter wq (0.0 to 1.0): 0.4
+Enter min threshold: 3
+Enter max threshold: 6
 Enter max drop probability: 0.5
-15
-5
-25
+3
+6
+9
 10
-12
 
 Sample Output:
 ACCEPTED
 ACCEPTED
-ACCEPTED (or DROPPED based on random probability)
 ACCEPTED
-ACCEPTED
+DROPPED
 */

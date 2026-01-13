@@ -1,18 +1,17 @@
 import java.net.*;
 import java.util.Scanner;
 
-class UdpServer
-{
-	public static void main(String args[]) throws Exception
-	{
+class UdpServer {
+	public static void main(String args[]) throws Exception {
 		Scanner in = new Scanner(System.in);
+		String message;
+
 		DatagramSocket datagramSocket = new DatagramSocket();
 		InetAddress clientAddress = InetAddress.getByName("127.0.0.1");
-		String message;
 		byte[] buffer;
 		DatagramPacket datagramPacket;
 		System.out.println("Enter messages to send: ");
-		while (true){
+		while (true) {
 			message = in.nextLine();
 			buffer = message.getBytes();
 			datagramPacket = new DatagramPacket(buffer, buffer.length, clientAddress, 4000);
