@@ -1,10 +1,11 @@
+# Simulator
 set ns [new Simulator]
 
 # Colors
-$ns color 1 Blue      ;# Ping
-$ns color 2 Red       ;# TCP Congestion
+$ns color 1 Blue
+$ns color 2 Red
 
-# Trace & NAM files
+# Trace & NAM
 set tf [open out.tr w]
 $ns trace-all $tf
 set nf [open out.nam w]
@@ -16,57 +17,55 @@ proc finish {} {
     close $tf
     close $nf
     exec nam out.nam &
-
-    puts "Number of packets dropped:"
-    exec grep -c "^d" out.tr
-
     exit 0
 }
 
-# Create 6 nodes
+# Nodes
 for {set i 0} {$i < 6} {incr i} {
     set n($i) [$ns node]
 }
 
-# Connect nodes
+# Links
 for {set i 0} {$i < 5} {incr i} {
     $ns duplex-link $n($i) $n([expr $i+1]) 0.1Mb 10ms DropTail
 }
 
-# Force congestion
+# Congestion point
 $ns queue-limit $n(2) $n(3) 2
 
-# Ping agents (Blue)
-set p0 [new Agent/Ping]
-$p0 set class_ 1
-$ns attach-agent $n(0) $p0
-set p1 [new Agent/Ping]
-$p1 set class_ 1
-$ns attach-agent $n(5) $p1
-$ns connect $p0 $p1
+set udp_ping [new Agent/UDP]
+$udp_ping set class_ 1
+$ns attach-agent $n(0) $udp_ping
 
-# TCP congestion traffic (Red)
-set tcp [new Agent/TCP]
-$tcp set class_ 2
-$ns attach-agent $n(2) $tcp
-set sink [new Agent/TCPSink]
-$ns attach-agent $n(4) $sink
-$ns connect $tcp $sink
+set null_ping [new Agent/Null]
+$ns attach-agent $n(5) $null_ping
+
+$ns connect $udp_ping $null_ping
+
+set cbr_ping [new Application/Traffic/CBR]
+$cbr_ping set packetSize_ 64
+$cbr_ping set rate_ 0.05Mb
+$cbr_ping attach-agent $udp_ping
+
+set udp [new Agent/UDP]
+$udp set class_ 2
+$ns attach-agent $n(2) $udp
+
+set null [new Agent/Null]
+$ns attach-agent $n(4) $null
+
+$ns connect $udp $null
 
 set cbr [new Application/Traffic/CBR]
 $cbr set packetSize_ 500
 $cbr set rate_ 1Mb
-$cbr attach-agent $tcp
+$cbr attach-agent $udp
 
 # Schedule
-$ns at 0.2 "$p0 send"
-$ns at 0.4 "$p1 send"
+$ns at 0.2 "$cbr_ping start"
 $ns at 0.6 "$cbr start"
-$ns at 0.8 "$p0 send"
-$ns at 1.0 "$p1 send"
 $ns at 1.2 "$cbr stop"
-$ns at 1.4 "$p0 send"
-$ns at 1.6 "$p1 send"
+$ns at 1.6 "$cbr_ping stop"
 $ns at 1.8 "finish"
 
 $ns run

@@ -10,11 +10,19 @@ proc finish {} {
     $ns flush-trace
     close $tf
     close $nf
-    exec nam out.nam &
+
     puts "Number of packets dropped:"
-    exec grep -c "^d" out.tr
+
+    if {[catch {exec grep -c "^d" out.tr} drops]} {
+        puts "0"
+    } else {
+        puts $drops
+    }
+
+    exec nam out.nam &
     exit 0
 }
+
 
 set n0 [$ns node]
 set n1 [$ns node]
@@ -23,7 +31,7 @@ set n2 [$ns node]
 $n0 label "Source"
 $n2 label "Sink"
 
-$ns duplex-link $n0 $n1 1Mb 10ms DropTail
+$ns duplex-link $n0 $n1 0.5Mb 10ms DropTail
 $ns duplex-link $n1 $n2 1Mb 10ms DropTail
 
 $ns duplex-link-op $n0 $n1 orient right

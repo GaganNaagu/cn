@@ -113,14 +113,14 @@ exec grep -c "^D" p6.tr &
 exit 0
 }
 
-$ns at 1.0 "$cbr0 start"
-$ns at 2.0 "$ftp0 start"
-$ns at 180.0 "$ftp0 stop"
-$ns at 200.0 "$cbr0 stop"
-$ns at 200.0 "finish"
-$ns at 70 "$n4 setdest 100 60 20"
-$ns at 100 "$n4 setdest 700 300 20"
-$ns at 150 "$n4 setdest 900 200 20"
+$ns at 0.1 "$cbr0 start"
+$ns at 0.2 "$ftp0 start"
+$ns at 18.0 "$ftp0 stop"
+$ns at 20.0 "$cbr0 stop"
+$ns at 20.0 "finish"
+$ns at 7.0 "$n4 setdest 100 60 20"
+$ns at 10.0 "$n4 setdest 700 300 20"
+$ns at 15.0 "$n4 setdest 900 200 20"
 $ns run
 
 
