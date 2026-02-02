@@ -1,11 +1,8 @@
-# Simulator
 set ns [new Simulator]
 
-# Colors
 $ns color 1 Blue
 $ns color 2 Red
 
-# Trace & NAM
 set tf [open out.tr w]
 $ns trace-all $tf
 set nf [open out.nam w]
@@ -20,17 +17,14 @@ proc finish {} {
     exit 0
 }
 
-# Nodes
 for {set i 0} {$i < 6} {incr i} {
     set n($i) [$ns node]
 }
 
-# Links
 for {set i 0} {$i < 5} {incr i} {
     $ns duplex-link $n($i) $n([expr $i+1]) 0.1Mb 10ms DropTail
 }
 
-# Congestion point
 $ns queue-limit $n(2) $n(3) 2
 
 set udp_ping [new Agent/UDP]
@@ -61,7 +55,6 @@ $cbr set packetSize_ 500
 $cbr set rate_ 1Mb
 $cbr attach-agent $udp
 
-# Schedule
 $ns at 0.2 "$cbr_ping start"
 $ns at 0.6 "$cbr start"
 $ns at 1.2 "$cbr stop"

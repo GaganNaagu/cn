@@ -10,19 +10,15 @@ proc finish {} {
     $ns flush-trace
     close $tf
     close $nf
-
     puts "Number of packets dropped:"
-
     if {[catch {exec grep -c "^d" out.tr} drops]} {
         puts "0"
     } else {
         puts $drops
     }
-
     exec nam out.nam &
     exit 0
 }
-
 
 set n0 [$ns node]
 set n1 [$ns node]
