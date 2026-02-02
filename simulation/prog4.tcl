@@ -26,39 +26,38 @@ $ns node-config -adhocRouting DSDV \
 create-god 6
 
 set n0 [$ns node]
-$n0 set X_ 630
-$n0 set Y_ 501
+$n0 set X_ 600
+$n0 set Y_ 500
 $n0 set Z_ 0.0
 $ns initial_node_pos $n0 20
 
 set n1 [$ns node]
-$n1 set X_ 454
-$n1 set Y_ 340
+$n1 set X_ 400
+$n1 set Y_ 300
 $n1 set Z_ 0.0
 $ns initial_node_pos $n1 20
 
 set n2 [$ns node]
-$n2 set X_ 785
-$n2 set Y_ 326
+$n2 set X_ 800
+$n2 set Y_ 300
 $n2 set Z_ 0.0
 $ns initial_node_pos $n2 20
 
 set n3 [$ns node]
-$n3 set X_ 270
-$n3 set Y_ 190
+$n3 set X_ 200
+$n3 set Y_ 200
 $n3 set Z_ 0.0
 $ns initial_node_pos $n3 20
 
 set n4 [$ns node]
-$n4 set X_ 539
-$n4 set Y_ 131
+$n4 set X_ 500
+$n4 set Y_ 100
 $n4 set Z_ 0.0
 $ns initial_node_pos $n4 20
 
 set n5 [$ns node]
-$n5 set X_ 964
-$n5 set Y_ 177
-$n5 set Z_ 0.0
+$n5 set X_ 1000
+$n5 set Y_ 200
 $ns initial_node_pos $n5 20
 
 set udp0 [new Agent/UDP]
