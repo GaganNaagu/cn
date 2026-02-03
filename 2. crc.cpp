@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/* Function to perform CRC division */
 string crcDivision(string data, string generator)
 {
     int m = generator.size();
@@ -26,9 +25,8 @@ int main()
 
     int m = crc.size();
 
-    /* Sender side */
     string code = msg;
-    code.append(m - 1, '0');   // append m-1 zeros
+    code.append(m - 1, '0');
 
     string temp = crcDivision(code, crc);
     string remainder = temp.substr(temp.size() - (m - 1));
@@ -38,7 +36,6 @@ int main()
     cout << "Remainder : " << remainder << endl;
     cout << "Code transmitted : " << transmitted << endl;
 
-    /* Receiver side */
     string receiver;
     cout << "Enter the message at receiver end : ";
     cin >> receiver;

@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// GCD function
 long long gcd(long long a, long long b)
 {
     while (b != 0)
@@ -13,7 +12,6 @@ long long gcd(long long a, long long b)
     return a;
 }
 
-// Modular Exponentiation
 long long exp(long long a, long long b, long long n)
 {
     long long res = 1;
@@ -40,7 +38,6 @@ int main()
     cout << "Enter public key e (1 < e < phi) & gcd(e, phi) = 1: ";
     cin >> e;
 
-    // Check if e is valid
     if (e >= phi || gcd(e, phi) != 1) {
         cout << "Invalid e! Try again." << endl;
         return 1;
