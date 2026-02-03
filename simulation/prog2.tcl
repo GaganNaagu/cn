@@ -14,6 +14,8 @@ proc finish {} {
     close $tf
     close $nf
     exec nam out.nam &
+    puts "Number of packets dropped:"
+    exec grep -c "^d" out.tr
     exit 0
 }
 
@@ -27,38 +29,34 @@ for {set i 0} {$i < 5} {incr i} {
 
 $ns queue-limit $n(2) $n(3) 2
 
-set udp_ping [new Agent/UDP]
-$udp_ping set class_ 1
-$ns attach-agent $n(0) $udp_ping
+set p0 [new Agent/Ping]
+$p0 set class_ 1
+$ns attach-agent $n(0) $p0
 
-set null_ping [new Agent/Null]
-$ns attach-agent $n(5) $null_ping
+set p1 [new Agent/Ping]
+$p1 set class_ 1
+$ns attach-agent $n(5) $p1
 
-$ns connect $udp_ping $null_ping
+$ns connect $p0 $p1
 
-set cbr_ping [new Application/Traffic/CBR]
-$cbr_ping set packetSize_ 64
-$cbr_ping set rate_ 0.05Mb
-$cbr_ping attach-agent $udp_ping
+set tcp [new Agent/TCP]
+$tcp set class_ 2
+$ns attach-agent $n(2) $tcp
 
-set udp [new Agent/UDP]
-$udp set class_ 2
-$ns attach-agent $n(2) $udp
+set sink [new Agent/TCPSink]
+$ns attach-agent $n(4) $sink
 
-set null [new Agent/Null]
-$ns attach-agent $n(4) $null
+$ns connect $tcp $sink
 
-$ns connect $udp $null
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
 
-set cbr [new Application/Traffic/CBR]
-$cbr set packetSize_ 500
-$cbr set rate_ 1Mb
-$cbr attach-agent $udp
-
-$ns at 0.2 "$cbr_ping start"
-$ns at 0.6 "$cbr start"
-$ns at 1.2 "$cbr stop"
-$ns at 1.6 "$cbr_ping stop"
+$ns at 0.2 "$p0 send"
+$ns at 0.4 "$p1 send"
+$ns at 0.6 "$ftp start"
+$ns at 1.2 "$ftp stop"
+$ns at 1.4 "$p0 send"
+$ns at 1.6 "$p1 send"
 $ns at 1.8 "finish"
 
 $ns run
