@@ -3,21 +3,21 @@ set ns [new Simulator]
 $ns color 1 Blue
 $ns color 2 Red
 
-set ntrace [open prog5.tr w]
-$ns trace-all $ntrace
-set namfile [open prog5.nam w]
-$ns namtrace-all $namfile
+set tf [open out.tr w]
+$ns trace-all $tf
+set nf [open out.nam w]
+$ns namtrace-all $nf
 
-set winFile0 [open WinFile0 w]
-set winFile1 [open WinFile1 w]
+set cwnd0 [open cwnd0 w]
+set cwnd1 [open cwnd1 w]
 
 proc Finish {} {
-    global ns ntrace namfile
+    global ns tf nf
     $ns flush-trace
-    close $ntrace
-    close $namfile
-    exec nam prog5.nam &
-    exec xgraph WinFile0 WinFile1 &
+    close $tf
+    close $nf
+    exec nam out.nam &
+    exec xgraph cwnd0 cwnd1 &
     exit 0
 }
 
@@ -79,9 +79,9 @@ $ftp1 attach-agent $tcp1
 $ftp1 set type_ FTP
 
 $ns at 0.1 "$ftp0 start"
-$ns at 0.1 "PlotWindow $tcp0 $winFile0"
+$ns at 0.1 "PlotWindow $tcp0 $cwnd0"
 $ns at 0.5 "$ftp1 start"
-$ns at 0.5 "PlotWindow $tcp1 $winFile1"
+$ns at 0.5 "PlotWindow $tcp1 $cwnd1"
 $ns at 25.0 "$ftp0 stop"
 $ns at 25.1 "$ftp1 stop"
 $ns at 25.2 "Finish"
