@@ -3,12 +3,12 @@ set ns [new Simulator]
 set topo [new Topography]
 $topo load_flatgrid 1500 1500
 
-set tracefile [open p6.tr w]
-$ns trace-all $tracefile
+set tf [open out.tr w]
+$ns trace-all $tf
 
-set namfile [open p6.nam w]
-$ns namtrace-all $namfile
-$ns namtrace-all-wireless $namfile 1500 1500
+set nf [open out.nam w]
+$ns namtrace-all $nf
+$ns namtrace-all-wireless $nf 1500 1500
 
 $ns node-config -adhocRouting DSDV \
     -llType LL \
@@ -60,43 +60,43 @@ $n5 set X_ 1000
 $n5 set Y_ 200
 $ns initial_node_pos $n5 20
 
-set udp0 [new Agent/UDP]
-$ns attach-agent $n0 $udp0
+set udp [new Agent/UDP]
+$ns attach-agent $n0 $udp
 set null1 [new Agent/Null]
 $ns attach-agent $n4 $null1
-$ns connect $udp0 $null1
-$udp0 set packetSize_ 1500
+$ns connect $udp $null1
+$udp set packetSize_ 1500
 
-set tcp0 [new Agent/TCP]
-$ns attach-agent $n3 $tcp0
-set sink1 [new Agent/TCPSink]
-$ns attach-agent $n5 $sink1
-$ns connect $tcp0 $sink1
+set tcp [new Agent/TCP]
+$ns attach-agent $n3 $tcp
+set sink [new Agent/TCPSink]
+$ns attach-agent $n5 $sink
+$ns connect $tcp $sink
 
-set cbr0 [new Application/Traffic/CBR]
-$cbr0 attach-agent $udp0
-$cbr0 set packetSize_ 1000
-$cbr0 set rate_ 1.0Mb
-$cbr0 set random_ null
+set cbr [new Application/Traffic/CBR]
+$cbr attach-agent $udp
+$cbr set packetSize_ 1000
+$cbr set rate_ 1.0Mb
+$cbr set random_ null
 
-set ftp0 [new Application/FTP]
-$ftp0 attach-agent $tcp0
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
 
 proc finish {} {
-    global ns tracefile namfile
+    global ns tf nf
     $ns flush-trace
-    close $tracefile
-    close $namfile
-    exec nam p6.nam &
+    close $tf
+    close $nf
+    exec nam out.nam &
     exec echo "Number of packets dropped is : " &
-    exec grep -c "^D" p6.tr &
+    exec grep -c "^d" out.tr &
     exit 0
 }
 
-$ns at 0.1 "$cbr0 start"
-$ns at 0.2 "$ftp0 start"
-$ns at 18.0 "$ftp0 stop"
-$ns at 20.0 "$cbr0 stop"
+$ns at 0.1 "$cbr start"
+$ns at 0.2 "$ftp start"
+$ns at 18.0 "$ftp stop"
+$ns at 20.0 "$cbr stop"
 $ns at 20.0 "finish"
 $ns at 7.0 "$n4 setdest 100 60 20"
 $ns at 10.0 "$n4 setdest 700 300 20"
